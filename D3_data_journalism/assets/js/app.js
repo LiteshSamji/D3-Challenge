@@ -9,10 +9,11 @@ var margin = {
     left: 100
 };
 
+//calculate chart height and width
 var width = svgWidth - margin.right - margin.left;
 var height = svgHeight - margin.top - margin.bottom;
 
-//Append DIV class to scatter element
+//append DIV class to scatter element
 var chart = d3.select("#scatter").append("div").classed("chart", true);
 
 //append an svg element to the chart with appropriate height and width
@@ -99,7 +100,7 @@ d3.csv("./assets/data/data.csv").then(function(censusData) {
         .attr("font-size", "10px")
         .text(function(d){return d.abbr});
 
-    //create group for 1 x-axis labels
+    //create group for 3 x-axis labels
     var xLabelsGroup = chartGroup.append("g")
         .attr("transform", `translate(${width / 2}, ${height + 20 + margin.top})`);
     
@@ -111,7 +112,22 @@ d3.csv("./assets/data/data.csv").then(function(censusData) {
         .attr("value", "poverty")
         .text("In Poverty (%)");
 
-     //create group for 1 y-axis labels
+        var ageLabel = xLabelsGroup.append("text")
+        .classed("aText", true)
+        .classed("inactive", true)
+        .attr("x", 0)
+        .attr("y", 40)
+        .attr("value", "age")
+        .text("Age (Median)")
+
+    var incomeLabel = xLabelsGroup.append("text")
+        .classed("aText", true)
+        .classed("inactive", true)
+        .attr("x", 0)
+        .attr("y", 60)
+        .attr("value", "income")
+        .text("Household Income (Median)")
+     //create group for 3 y-axis labels
      var yLabelsGroup = chartGroup.append("g")
      .attr("transform", `translate(${0 - margin.left/4}, ${(height/2)})`);
 
@@ -124,5 +140,27 @@ d3.csv("./assets/data/data.csv").then(function(censusData) {
      .attr("transform", "rotate(-90)")
      .attr("value", "healthcare")
      .text("Lacks Healthcare (%)");
+     var smokesLabel = yLabelsGroup.append("text")
+        .classed("aText", true)
+        .classed("inactive", true)
+        .attr("x", 0)
+        .attr("y", 0 - 40)
+        .attr("dy", "1em")
+        .attr("transform", "rotate(-90)")
+        .attr("value", "smokes")
+        .text("Smokes (%)");
+
+    var obesityLabel = yLabelsGroup.append("text")
+        .classed("aText", true)
+        .classed("inactive", true)
+        .attr("x", 0)
+        .attr("y", 0 - 60)
+        .attr("dy", "1em")
+        .attr("transform", "rotate(-90)")
+        .attr("value", "obesity")
+        .text("Obese (%)");
+
+
+
 
 });
