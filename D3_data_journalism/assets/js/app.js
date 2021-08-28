@@ -52,7 +52,53 @@ function yScale(censusData, chosenYAxis) {
     return yLinearScale;
 }
 
+// function used for updating circles group with new tooltip
+function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
 
+    //select x label
+    //poverty percentage
+    if (chosenXAxis === 'poverty') {
+        var xLabel = "Poverty:";
+    }
+    //household income in dollars
+    else if (chosenXAxis === 'income') {
+        var xLabel = "Median Income:";
+    }
+    //age (number)
+    else {
+        var xLabel = "Age:";
+    }
+
+    //select y label
+    //percentage lacking healthcare
+    if (chosenYAxis === 'healthcare') {
+        var yLabel = "No Healthcare:"
+    }
+    //percentage obese
+    else if (chosenYAxis === 'obesity') {
+        var yLabel = "Obesity:"
+    }
+    //smoking percentage
+    else {
+        var yLabel = "Smokers:"
+    }
+
+    //create tooltip
+    var toolTip = d3.tip()
+        .attr("class", "d3-tip")
+        .offset([-8, 0])
+        .html(function(d) {
+            return (`${d.state}<br>${xLabel} ${styleX(d[chosenXAxis], chosenXAxis)}<br>${yLabel} ${d[chosenYAxis]}%`);
+        });
+
+    circlesGroup.call(toolTip);
+
+    //add events
+    circlesGroup.on("mouseover", toolTip.show)
+    .on("mouseout", toolTip.hide);
+
+    return circlesGroup;
+}
 
 
 //retrieve csv data and execute everything below
